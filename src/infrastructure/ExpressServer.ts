@@ -14,9 +14,14 @@ export default class ExpressServer implements ServerInterface {
         standardHeaders: true,
         legacyHeaders: false,
         handler: (req, res, next) => {
-          res.status(429).send({
-            message: "slow down! you have been rate limited",
-          });
+          new Responder().respond(
+            "slow down! you have been rate limited",
+            null,
+            429,
+            false,
+            null,
+            res
+          );
           return;
         },
       })
