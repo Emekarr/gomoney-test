@@ -2,6 +2,7 @@ import ServerInterface from "./ServerInterface";
 import express from "express";
 import RateLimiter from "./ratelimiter/RateLimiter";
 import CORS from "./cors/CORS";
+import Responder from "./responder";
 
 export default class ExpressServer implements ServerInterface {
   start(): void {
@@ -37,15 +38,18 @@ export default class ExpressServer implements ServerInterface {
     );
 
     server.use("/ping", (req, res, next) => {
-      res.status(200).send({
-        message: `pong`,
-      });
+      new Responder().respond("pong", null, 200, true, null, res);
     });
 
     server.use("*", (req, res, next) => {
-      res.status(404).send({
-        message: `${req.method} ${req.baseUrl} does not exist`,
-      });
+      new Responder().respond(
+        `${req.method} ${req.baseUrl} does not exist`,
+        null,
+        404,
+        false,
+        null,
+        res
+      );
     });
 
     server.listen(process.env.PORT || 3000, () => {
