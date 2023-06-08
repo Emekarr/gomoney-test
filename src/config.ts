@@ -17,9 +17,14 @@ const getOrigins = (): string[] => {
   return (process.env.ORIGINS as string).split(",");
 };
 
+const getLogAggregator = (): string => {
+  return process.env.LOG_AGGREGATOR_URL as string;
+};
+
 export default {
   getAllowedHeaders,
   getJSONLimit,
   getOrigins,
   getPort,
+  getLogAggregator,
 };

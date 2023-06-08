@@ -1,13 +1,18 @@
 import ServerInterface from "./ServerInterface";
 import express from "express";
+import morgan from "morgan";
+
 import RateLimiter from "./ratelimiter/RateLimiter";
 import CORS from "./cors/CORS";
 import Responder from "./responder";
 import config from "../config";
+import InfoLogger from "./logger/InfoLogger";
 
 export default class ExpressServer implements ServerInterface {
   start(): void {
     const server = express();
+
+    server.use(morgan("combined"));
 
     // rate limiter
     server.use(
@@ -57,7 +62,7 @@ export default class ExpressServer implements ServerInterface {
     });
 
     server.listen(config.getPort(), () => {
-      console.log("server running on port " + config.getPort());
+      InfoLogger.write(`server running on PORT ${config.getPort()}`);
     });
   }
 }
