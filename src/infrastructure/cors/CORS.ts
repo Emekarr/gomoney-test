@@ -4,13 +4,13 @@ import CORSInterface from "./CORSInterface";
 
 class CORS implements CORSInterface {
   init(
-    origin: string,
+    origin: string[],
     methods: string,
     preflightContinue: boolean,
     opts: Partial<CorsOptions> | Partial<CorsOptionsDelegate>
   ) {
     return cors({
-      origin: origin.split(","),
+      origin: origin,
       preflightContinue,
       methods,
       ...opts,

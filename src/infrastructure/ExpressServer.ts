@@ -3,6 +3,7 @@ import express from "express";
 import RateLimiter from "./ratelimiter/RateLimiter";
 import CORS from "./cors/CORS";
 import Responder from "./responder";
+import config from "../config";
 
 export default class ExpressServer implements ServerInterface {
   start(): void {
@@ -28,18 +29,16 @@ export default class ExpressServer implements ServerInterface {
     );
 
     server.use(
-      CORS.init(
-        process.env.ORIGINS as string,
-        "GET,HEAD,PUT,PATCH,POST,DELETE",
-        true,
-        { credentials: true, allowedHeaders: process.env.ALLOWED_HEADERS }
-      )
+      CORS.init(config.getOrigins(), "GET,HEAD,PUT,PATCH,POST,DELETE", true, {
+        credentials: true,
+        allowedHeaders: config.getAllowedHeaders(),
+      })
     );
 
-    server.use(express.json({ limit: process.env.JSON_LIMIT }));
+    server.use(express.json({ limit: config.getJSONLimit() }));
 
     server.use(
-      express.urlencoded({ extended: true, limit: process.env.JSON_LIMIT })
+      express.urlencoded({ extended: true, limit: config.getJSONLimit() })
     );
 
     server.use("/ping", (req, res, next) => {
@@ -57,8 +56,8 @@ export default class ExpressServer implements ServerInterface {
       );
     });
 
-    server.listen(process.env.PORT || 3000, () => {
-      console.log("server running on port " + process.env.PORT ?? 3000);
+    server.listen(config.getPort(), () => {
+      console.log("server running on port " + config.getPort());
     });
   }
 }
