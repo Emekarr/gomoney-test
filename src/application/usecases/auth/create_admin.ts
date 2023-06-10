@@ -23,6 +23,12 @@ export default class CreateAdminUseCase {
     if (result.err) {
       throw new UserError(result.err.message, 400);
     }
+    const exists = await this.adminRepo.count({ email: result.payload?.email });
+    if (exists !== 0)
+      throw new UserError(
+        `an account already exists with email ${result.payload?.email}`,
+        409
+      );
     result.payload!.password = await this.hasher.hash(
       result.payload!.password!
     );
