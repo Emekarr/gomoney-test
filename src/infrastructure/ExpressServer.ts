@@ -1,5 +1,5 @@
 import ServerInterface from "./ServerInterface";
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 
 import RateLimiter from "./ratelimiter/RateLimiter";
@@ -8,6 +8,7 @@ import Responder from "./responder";
 import config from "../config";
 import InfoLogger from "./logger/InfoLogger";
 import ExpressRouter from "./routes/express";
+import { ErrorMiddleware } from "../application/middleware/error";
 
 export default class ExpressServer implements ServerInterface {
   start(): void {
@@ -63,6 +64,11 @@ export default class ExpressServer implements ServerInterface {
         res
       );
     });
+    server.use(
+      (err: Error, req: Request, res: Response, next: NextFunction) => {
+        ErrorMiddleware({ responder: res, err });
+      }
+    );
 
     server.listen(config.getPort(), () => {
       InfoLogger.write(`server running on PORT ${config.getPort()}`);

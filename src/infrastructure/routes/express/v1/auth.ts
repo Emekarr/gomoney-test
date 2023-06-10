@@ -4,12 +4,26 @@ import { AuthMiddleware } from "../../../../application/middleware/auth";
 
 const router = Router();
 
-router.post("/admin/create", async (req: Request, res: Response) => {
-  await AuthController.createAdmin({ body: req.body, responder: res });
-});
+router.post(
+  "/admin/create",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await AuthController.createAdmin({ body: req.body, responder: res });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
 
-router.post("/admin/login", async (req: Request, res: Response) => {
-  await AuthController.loginAdmin({ body: req.body, responder: res });
-});
+router.post(
+  "/admin/login",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await AuthController.loginAdmin({ body: req.body, responder: res });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
 
 export default router;
