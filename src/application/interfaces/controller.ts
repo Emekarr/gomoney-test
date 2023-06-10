@@ -7,4 +7,9 @@ export interface AuthControllerInterface {
 
 export interface TeamControllerInterface {
   createTeam(ctx: any): Promise<void>;
+  fetchTeam(ctx: {
+    responder: any;
+    query: { lastID: string; limit: number };
+    body: { name: string };
+  }): Promise<void>;
 }

@@ -46,7 +46,7 @@ class AuthController implements AuthControllerInterface {
     });
     const refreshToken = await AuthTokensManager.generateRefreshToken({
       name: user.name,
-      admin: true,
+      admin: false,
       email: user.email,
       id: user.id,
     });
@@ -94,13 +94,13 @@ class AuthController implements AuthControllerInterface {
     const user = await container.resolve(LoginUserUseCase).execute(ctx.body);
     const accessToken = await AuthTokensManager.generateAccessToken({
       name: user.name,
-      admin: true,
+      admin: false,
       email: user.email,
       id: user.id,
     });
     const refreshToken = await AuthTokensManager.generateRefreshToken({
       name: user.name,
-      admin: true,
+      admin: false,
       email: user.email,
       id: user.id,
     });

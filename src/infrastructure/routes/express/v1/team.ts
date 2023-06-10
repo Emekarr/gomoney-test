@@ -33,4 +33,37 @@ router.post(
   }
 );
 
+router.get(
+  "/fetch",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await AuthMiddleware({
+        responder: res,
+        authToken: req.headers.authorization,
+        admin: false,
+      });
+      if (!user) return;
+      next();
+    } catch (err: any) {
+      next(err);
+    }
+  },
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await TeamController.fetchTeam({
+        responder: res,
+        query: {
+          lastID: req.query.lastID as string,
+          limit: Number(req.query.limit) ?? 15,
+        },
+        body: {
+          name: req.body.name,
+        },
+      });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 export default router;

@@ -5,6 +5,7 @@ import AuthTokensManager from "../../infrastructure/token/jwt";
 import config from "../../config";
 import { CacheRepository } from "../../infrastructure/repository";
 import AdminRepository from "../repository/AdminRepository";
+import Userepository from "../repository/UserRepository";
 
 export const AuthMiddleware = async (ctx: {
   authToken?: string;
@@ -68,6 +69,8 @@ export const AuthMiddleware = async (ctx: {
   let stillExists = 0;
   if (result.admin) {
     stillExists = await new AdminRepository().count({ _id: result.id });
+  } else {
+    stillExists = await new Userepository().count({ _id: result.id });
   }
   if (stillExists === 0)
     return new Responder().respond(
