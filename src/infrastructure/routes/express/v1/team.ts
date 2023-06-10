@@ -114,6 +114,22 @@ router.get(
           lastID: req.query.lastID as string,
           limit: Number(req.query.limit) ?? 15,
         },
+      });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
+router.get(
+  "/search",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await TeamController.searchTeam({
+        responder: res,
+        query: {
+          limit: Number(req.query.limit) ?? 15,
+        },
         body: {
           name: req.body.name,
         },

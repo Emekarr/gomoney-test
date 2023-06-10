@@ -7,6 +7,7 @@ import DeleteTeamsUseCase from "../usecases/team/delete_teams";
 import UserError from "../errors/UserError";
 import UpdateTeamsUseCase from "../usecases/team/update_team";
 import Team from "../../domain/entities/team";
+import SearchTeamsUseCase from "../usecases/team/search_teams";
 
 class TeamController implements TeamControllerInterface {
   async updateTeam(ctx: {
@@ -43,18 +44,36 @@ class TeamController implements TeamControllerInterface {
       ctx.responder
     );
   }
+
   async fetchTeam(ctx: {
     responder: any;
     query: { lastID: string; limit: number };
+  }): Promise<void> {
+    const teams = await container
+      .resolve(FetchTeamsUseCase)
+      .execute(ctx.query.lastID, ctx.query.limit);
+    new Responder().respond(
+      "teams fetched",
+      teams,
+      200,
+      true,
+      null,
+      ctx.responder
+    );
+  }
+
+  async searchTeam(ctx: {
+    responder: any;
+    query: { limit: number };
     body: {
       name: string;
     };
   }): Promise<void> {
     const teams = await container
-      .resolve(FetchTeamsUseCase)
-      .execute(ctx.query.lastID, ctx.query.limit, ctx.body.name);
+      .resolve(SearchTeamsUseCase)
+      .execute(ctx.query.limit, ctx.body.name);
     new Responder().respond(
-      "teams fetched",
+      "search successful",
       teams,
       200,
       true,

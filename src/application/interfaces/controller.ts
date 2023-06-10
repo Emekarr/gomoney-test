@@ -17,6 +17,10 @@ export interface TeamControllerInterface {
   fetchTeam(ctx: {
     responder: any;
     query: { lastID: string; limit: number };
+  }): Promise<void>;
+  searchTeam(ctx: {
+    responder: any;
+    query: { limit: number };
     body: { name: string };
   }): Promise<void>;
   deleteTeamsUseCase(ctx: {
