@@ -21,10 +21,20 @@ const getLogAggregator = (): string => {
   return process.env.LOG_AGGREGATOR_URL as string;
 };
 
+const getMongoURL = (): string => {
+  return process.env.MONGO_URL as string;
+};
+
+const getDatabaseName = (): string => {
+  return process.env.DB_NAME as string;
+};
+
 export default {
   getAllowedHeaders,
   getJSONLimit,
   getOrigins,
   getPort,
   getLogAggregator,
+  getMongoURL,
+  getDatabaseName,
 };
