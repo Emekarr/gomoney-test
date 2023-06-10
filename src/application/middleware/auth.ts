@@ -83,6 +83,6 @@ export const AuthMiddleware = async (ctx: {
     name: result.name,
     admin: result.admin,
     email: result.email,
-    id: result.admin,
+    id: result.id,
   };
 };

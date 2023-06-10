@@ -1,7 +1,7 @@
 import Admin from "../../domain/entities/admin";
 import Responder from "../../infrastructure/responder";
 import AuthTokensManager from "../../infrastructure/token/jwt";
-import AuthControllerInterface from "../interfaces/controller";
+import { AuthControllerInterface } from "../interfaces/controller";
 import CreateAdminUseCase from "../usecases/auth/create_admin";
 import { container } from "tsyringe";
 import LoginAdminUseCase from "../usecases/auth/login_admin";

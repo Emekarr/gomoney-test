@@ -1,5 +1,6 @@
 import joi, { ValidationError, ValidationResult, object } from "joi";
 import { ClassValidationResult, ClassValidatorInterface } from "./types";
+import { err_msgs } from "./err_msgs";
 
 export default class JoiValidator implements ClassValidatorInterface {
   readonly validator = joi;
