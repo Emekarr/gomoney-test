@@ -29,6 +29,10 @@ const getDatabaseName = (): string => {
   return process.env.DB_NAME as string;
 };
 
+const getRedisURL = (): string => {
+  return process.env.REDIS_URL as string;
+};
+
 export default {
   getAllowedHeaders,
   getJSONLimit,
@@ -36,5 +40,6 @@ export default {
   getPort,
   getLogAggregator,
   getMongoURL,
+  getRedisURL,
   getDatabaseName,
 };
