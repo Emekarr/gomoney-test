@@ -33,6 +33,35 @@ router.post(
   }
 );
 
+router.delete(
+  "/delete",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await AuthMiddleware({
+        responder: res,
+        authToken: req.headers.authorization,
+        admin: true,
+      });
+      if (!user) return;
+      req.user = user;
+      next();
+    } catch (err: any) {
+      next(err);
+    }
+  },
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await TeamController.deleteTeamsUseCase({
+        responder: res,
+        adminID: req.user.id,
+        id: req.query.id as string,
+      });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 router.get(
   "/fetch",
   async (req: Request, res: Response, next: NextFunction) => {

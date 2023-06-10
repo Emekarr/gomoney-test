@@ -12,4 +12,9 @@ export interface TeamControllerInterface {
     query: { lastID: string; limit: number };
     body: { name: string };
   }): Promise<void>;
+  deleteTeamsUseCase(ctx: {
+    id: string;
+    adminID: string;
+    responder: any;
+  }): void;
 }

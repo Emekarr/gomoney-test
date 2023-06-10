@@ -3,8 +3,26 @@ import { container } from "tsyringe";
 import CreateTeamUseCase from "../usecases/team/create_team";
 import Responder from "../../infrastructure/responder";
 import FetchTeamsUseCase from "../usecases/team/fetch_teams";
+import DeleteTeamsUseCase from "../usecases/team/delete_teams";
+import UserError from "../errors/UserError";
 
 class TeamController implements TeamControllerInterface {
+  async deleteTeamsUseCase(ctx: {
+    id: string;
+    adminID: string;
+    responder: any;
+  }): Promise<void> {
+    if (!ctx.id) throw new UserError("id is required", 400);
+    await container.resolve(DeleteTeamsUseCase).execute(ctx.id, ctx.adminID);
+    new Responder().respond(
+      "team deleted",
+      null,
+      200,
+      true,
+      null,
+      ctx.responder
+    );
+  }
   async fetchTeam(ctx: {
     responder: any;
     query: { lastID: string; limit: number };
