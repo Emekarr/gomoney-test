@@ -16,6 +16,17 @@ router.post(
 );
 
 router.post(
+  "/user/create",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await AuthController.createUser({ body: req.body, responder: res });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
+router.post(
   "/admin/login",
   async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -6,6 +6,7 @@ import CreateAdminUseCase from "../usecases/auth/create_admin";
 import { container } from "tsyringe";
 import LoginAdminUseCase from "../usecases/auth/login_admin";
 import { LoginPayloadInterface } from "../interfaces/usecases/auth";
+import CreateUserUseCase from "../usecases/auth/create_user";
 
 class AuthController implements AuthControllerInterface {
   async createAdmin(ctx: { body: any; responder: any }): Promise<void> {
@@ -28,6 +29,31 @@ class AuthController implements AuthControllerInterface {
       { admin, tokens: { accessToken, refreshToken } },
       201,
       true,
+      null,
+      ctx.responder
+    );
+  }
+
+  async createUser(ctx: { body: any; responder: any }): Promise<void> {
+    const body: Admin = ctx.body;
+    const user = await container.resolve(CreateUserUseCase).execute(body);
+    const accessToken = await AuthTokensManager.generateAccessToken({
+      name: user.name,
+      admin: false,
+      email: user.email,
+      id: user.id,
+    });
+    const refreshToken = await AuthTokensManager.generateRefreshToken({
+      name: user.name,
+      admin: true,
+      email: user.email,
+      id: user.id,
+    });
+    new Responder().respond(
+      "user acount created",
+      { user, tokens: { accessToken, refreshToken } },
+      201,
+      false,
       null,
       ctx.responder
     );
