@@ -1,6 +1,7 @@
 import config from "../../config";
 
 export default class Fixture {
+  public url: string;
   constructor(
     public id: string,
     public createdBy: string,
@@ -12,8 +13,11 @@ export default class Fixture {
     public teamTwoID: string,
     public createdAt: Date,
     public updatedAt: Date
-  ) {}
-  getURL(): string {
+  ) {
+    this.url = this.generateURL();
+  }
+
+  private generateURL(): string {
     return `${config.getClientOrigin}/api/v1/fixture/${this.id}`;
   }
 }
