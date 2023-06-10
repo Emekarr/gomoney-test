@@ -9,6 +9,7 @@ import AdminRepository from "../repository/AdminRepository";
 export const AuthMiddleware = async (ctx: {
   authToken?: string;
   responder: any;
+  admin: boolean;
 }) => {
   const tokenHeader = ctx.authToken;
   if (typeof tokenHeader === "undefined")
@@ -34,6 +35,15 @@ export const AuthMiddleware = async (ctx: {
   if (result.iss !== config.getJWTIssuer())
     return new Responder().respond(
       "invalid access token used",
+      null,
+      401,
+      false,
+      null,
+      ctx.responder
+    );
+  if (ctx.admin && !result.admin)
+    return new Responder().respond(
+      "you are not authorized to access this resource",
       null,
       401,
       false,
