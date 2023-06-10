@@ -4,6 +4,8 @@ import AuthTokensManager from "../../infrastructure/token/jwt";
 import AuthControllerInterface from "../interfaces/controller";
 import CreateAdminUseCase from "../usecases/auth/create_admin";
 import { container } from "tsyringe";
+import LoginAdminUseCase from "../usecases/auth/login_admin";
+import { LoginPayloadInterface } from "../interfaces/usecases/auth";
 
 class AuthController implements AuthControllerInterface {
   async createAdmin(ctx: { body: any; responder: any }): Promise<void> {
@@ -31,8 +33,19 @@ class AuthController implements AuthControllerInterface {
     );
   }
 
-  loginAdmin(ctx: any): Promise<void> {
-    throw new Error("Method not implemented.");
+  async loginAdmin(ctx: {
+    body: LoginPayloadInterface;
+    responder: any;
+  }): Promise<void> {
+    const admin = await container.resolve(LoginAdminUseCase).execute(ctx.body);
+    new Responder().respond(
+      "login successful",
+      admin,
+      200,
+      true,
+      null,
+      ctx.responder
+    );
   }
 }
 
