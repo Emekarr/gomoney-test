@@ -49,6 +49,10 @@ const getJWTIssuer = (): string => {
   return process.env.JWT_ISSUER as string;
 };
 
+const getClientOrigin = (): string => {
+  return process.env.CLIENT_ORIGIN as string;
+};
+
 export default {
   getAllowedHeaders,
   getJSONLimit,
@@ -62,4 +66,5 @@ export default {
   getRefreshTokenLife,
   getAccessTokenLife,
   getJWTIssuer,
+  getClientOrigin,
 };
