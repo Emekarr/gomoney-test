@@ -7,6 +7,10 @@ export interface AuthControllerInterface {
   loginUser(ctx: any): Promise<void>;
 }
 
+export interface FixtureControllerInterface {
+  createFixture(ctx: { responder: any; body: any; adminID: string }): void;
+}
+
 export interface TeamControllerInterface {
   createTeam(ctx: any): Promise<void>;
   updateTeam(ctx: {

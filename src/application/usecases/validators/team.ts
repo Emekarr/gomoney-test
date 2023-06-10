@@ -8,7 +8,5 @@ export const TeamValidatorSchema: Partial<Record<keyof Team, any>> = {
 };
 
 export const UpdateTeamValidatorSchema: Partial<Record<keyof Team, any>> = {
-    name: Joi.string().max(50).min(3).messages(err_msgs),
-    createdBy: Joi.string().messages(err_msgs),
-  };
-  
+  name: Joi.string().max(50).min(3).messages(err_msgs),
+};

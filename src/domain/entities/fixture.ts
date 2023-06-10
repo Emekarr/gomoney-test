@@ -6,7 +6,7 @@ export default class Fixture {
     public id: string,
     public createdBy: string,
     public name: string,
-    public completed: string,
+    public completed: boolean,
     public teamOneName: string,
     public teamOneID: string,
     public teamTwoName: string,
