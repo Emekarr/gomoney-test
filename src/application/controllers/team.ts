@@ -5,8 +5,28 @@ import Responder from "../../infrastructure/responder";
 import FetchTeamsUseCase from "../usecases/team/fetch_teams";
 import DeleteTeamsUseCase from "../usecases/team/delete_teams";
 import UserError from "../errors/UserError";
+import UpdateTeamsUseCase from "../usecases/team/update_team";
+import Team from "../../domain/entities/team";
 
 class TeamController implements TeamControllerInterface {
+  async updateTeam(ctx: {
+    responder: any;
+    query: { id: string; adminID: string };
+    body: Partial<Team>;
+  }): Promise<void> {
+    if (!ctx.query.id) throw new UserError("id is required", 400);
+    const team = await container
+      .resolve(UpdateTeamsUseCase)
+      .execute(ctx.query.id, ctx.query.adminID, ctx.body);
+    new Responder().respond(
+      "team updated",
+      team,
+      200,
+      true,
+      null,
+      ctx.responder
+    );
+  }
   async deleteTeamsUseCase(ctx: {
     id: string;
     adminID: string;
