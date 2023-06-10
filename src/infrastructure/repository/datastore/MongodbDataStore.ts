@@ -20,8 +20,8 @@ export default abstract class MongodbRepository<
   async createEntry(
     payload: Partial<T>,
     args: Partial<SaveOptions>
-  ): Promise<T[]> {
-    return await new this.model(payload).save();
+  ): Promise<T> {
+    return await new this.model(payload, args).save();
   }
 
   async findByID(
