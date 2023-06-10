@@ -1,7 +1,7 @@
 import joi, { ValidationError, ValidationResult, object } from "joi";
 import { ClassValidationResult, ClassValidatorInterface } from "./types";
 
-export default abstract class JoiValidator implements ClassValidatorInterface {
+export default class JoiValidator implements ClassValidatorInterface {
   readonly validator = joi;
 
   validate<T>(

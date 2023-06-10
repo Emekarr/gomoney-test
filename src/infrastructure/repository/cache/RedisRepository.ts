@@ -1,4 +1,4 @@
-import CacheInterface from "../interfaces/CacheInterface";
+import CacheInterface from "../../../application/interfaces/CacheInterface";
 import { RedisClientType } from "@redis/client";
 import { Options } from "./type";
 

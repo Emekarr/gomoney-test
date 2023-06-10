@@ -7,6 +7,7 @@ import CORS from "./cors/CORS";
 import Responder from "./responder";
 import config from "../config";
 import InfoLogger from "./logger/InfoLogger";
+import ExpressRouter from "./responder/routes/express";
 
 export default class ExpressServer implements ServerInterface {
   start(): void {
@@ -45,6 +46,8 @@ export default class ExpressServer implements ServerInterface {
     server.use(
       express.urlencoded({ extended: true, limit: config.getJSONLimit() })
     );
+
+    server.use("/api", new ExpressRouter().registerRoutes());
 
     server.use("/ping", (req, res, next) => {
       new Responder().respond("pong", null, 200, true, null, res);

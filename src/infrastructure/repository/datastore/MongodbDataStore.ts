@@ -9,7 +9,7 @@ import {
   UpdateWithAggregationPipeline,
   UpdateQuery,
 } from "mongoose";
-import DataStoreInterface from "../interfaces/DataStoreInterface";
+import DataStoreInterface from "../../../application/interfaces/DataStoreInterface";
 
 export default abstract class MongodbRepository<
   T extends Document<any, any, any>
@@ -18,10 +18,10 @@ export default abstract class MongodbRepository<
   constructor(private model: Model<any>) {}
 
   async createEntry(
-    payload: Partial<T>[],
+    payload: Partial<T>,
     args: Partial<SaveOptions>
   ): Promise<T[]> {
-    return await this.model.create(payload, args);
+    return await new this.model(payload).save();
   }
 
   async findByID(
