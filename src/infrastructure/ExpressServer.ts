@@ -7,7 +7,7 @@ import CORS from "./cors/CORS";
 import Responder from "./responder";
 import config from "../config";
 import InfoLogger from "./logger/InfoLogger";
-import ExpressRouter from "./responder/routes/express";
+import ExpressRouter from "./routes/express";
 
 export default class ExpressServer implements ServerInterface {
   start(): void {

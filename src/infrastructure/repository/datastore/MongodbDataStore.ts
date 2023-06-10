@@ -17,6 +17,10 @@ export default abstract class MongodbRepository<
 {
   constructor(private model: Model<any>) {}
 
+  async count(filter: any): Promise<number> {
+    return await this.model.count(filter);
+  }
+
   async createEntry(
     payload: Partial<T>,
     args: Partial<SaveOptions>

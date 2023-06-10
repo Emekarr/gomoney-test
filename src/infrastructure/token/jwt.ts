@@ -33,6 +33,6 @@ export default abstract class AuthTokensManager {
   }
 
   static async verifyToken(token: string) {
-    return this.jwt.verify(token, config.getJWTSecret());
+    return this.jwt.verify(token, config.getJWTSecret()) as TokenGenPayload;
   }
 }

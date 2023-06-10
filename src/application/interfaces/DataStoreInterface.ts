@@ -7,6 +7,7 @@ export default interface DataStoreInterface {
   findManyByFields(filter: any, ...args: any): Promise<any>;
   findOneByFields(filter: any, ...args: any): Promise<any>;
   findLast(filter: any): Promise<any>;
+  count(filter: any): Promise<number>;
 
   // update
   updateByID(id: string, payload: any, ...args: any): Promise<any>;

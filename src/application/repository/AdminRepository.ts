@@ -3,7 +3,7 @@ import AdminModel, {
   AdminDocument,
 } from "../../infrastructure/database/schema/admin";
 
-export default abstract class AdminRepository extends DataStoreRepository<AdminDocument> {
+export default class AdminRepository extends DataStoreRepository<AdminDocument> {
   constructor() {
     super(AdminModel);
   }
