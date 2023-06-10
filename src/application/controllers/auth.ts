@@ -65,9 +65,21 @@ class AuthController implements AuthControllerInterface {
     responder: any;
   }): Promise<void> {
     const admin = await container.resolve(LoginAdminUseCase).execute(ctx.body);
+    const accessToken = await AuthTokensManager.generateAccessToken({
+      name: admin.name,
+      admin: true,
+      email: admin.email,
+      id: admin.id,
+    });
+    const refreshToken = await AuthTokensManager.generateRefreshToken({
+      name: admin.name,
+      admin: true,
+      email: admin.email,
+      id: admin.id,
+    });
     new Responder().respond(
       "login successful",
-      admin,
+      { admin, tokens: { accessToken, refreshToken } },
       200,
       true,
       null,
