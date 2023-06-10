@@ -37,4 +37,15 @@ router.post(
   }
 );
 
+router.post(
+  "/user/login",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await AuthController.loginUser({ body: req.body, responder: res });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 export default router;

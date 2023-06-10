@@ -2,7 +2,7 @@ import User from "../../../domain/entities/user";
 import UserError from "../../errors/UserError";
 import UserRepository from "../../repository/UserRepository";
 import ClassValidator from "../../validator";
-import { AdminValidatorSchema } from "../validators/user";
+import { UserValidatorSchema } from "../validators/user";
 import HasherService from "../../../infrastructure/hasher";
 
 import "reflect-metadata";
@@ -16,7 +16,7 @@ export default class CreateUserUseCase {
   ) {}
 
   async execute(payload: User) {
-    const result = ClassValidator.validate<User>(AdminValidatorSchema, payload);
+    const result = ClassValidator.validate<User>(UserValidatorSchema, payload);
     if (result.err) {
       throw new UserError(result.err.message, 400);
     }
@@ -29,8 +29,8 @@ export default class CreateUserUseCase {
     result.payload!.password = await this.hasher.hash(
       result.payload!.password!
     );
-    let admin = await this.userRepo.createEntry(result.payload!, {});
-    admin.password = undefined;
-    return admin;
+    let user = await this.userRepo.createEntry(result.payload!, {});
+    user.password = undefined;
+    return user;
   }
 }
