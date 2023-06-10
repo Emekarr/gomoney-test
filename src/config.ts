@@ -33,6 +33,22 @@ const getRedisURL = (): string => {
   return process.env.REDIS_URL as string;
 };
 
+const getJWTSecret = (): string => {
+  return process.env.JWT_SECRET as string;
+};
+
+const getRefreshTokenLife = (): number => {
+  return parseInt(process.env.REFRESH_TOKEN_LIFE as string, 10);
+};
+
+const getAccessTokenLife = (): number => {
+  return parseInt(process.env.ACCESS_TOKEN_LIFE as string, 10);
+};
+
+const getJWTIssuer = (): string => {
+  return process.env.JWT_ISSUER as string;
+};
+
 export default {
   getAllowedHeaders,
   getJSONLimit,
@@ -42,4 +58,8 @@ export default {
   getMongoURL,
   getRedisURL,
   getDatabaseName,
+  getJWTSecret,
+  getRefreshTokenLife,
+  getAccessTokenLife,
+  getJWTIssuer,
 };
