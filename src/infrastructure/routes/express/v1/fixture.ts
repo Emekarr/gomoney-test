@@ -66,4 +66,23 @@ router.get(
   }
 );
 
+router.get(
+  "/search",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await FixtureController.searchFixtures({
+        responder: res,
+        query: {
+          limit: Number(req.query.limit) ?? 15,
+        },
+        body: {
+          name: req.body.name,
+        },
+      });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 export default router;

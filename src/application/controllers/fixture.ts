@@ -3,6 +3,7 @@ import { container } from "tsyringe";
 import Responder from "../../infrastructure/responder";
 import CreateFixtureUseCase from "../usecases/fixture/create_fixture";
 import FetchFixturesUseCase from "../usecases/fixture/fetch_fixtures";
+import SearchFixturesUseCase from "../usecases/fixture/search_fixtures";
 
 class FixtureController implements FixtureControllerInterface {
   async createFixture(ctx: {
@@ -37,6 +38,26 @@ class FixtureController implements FixtureControllerInterface {
       );
     new Responder().respond(
       "fixture fetched",
+      fixtures,
+      200,
+      true,
+      null,
+      ctx.responder
+    );
+  }
+
+  async searchFixtures(ctx: {
+    responder: any;
+    query: { limit: number };
+    body: {
+      name: string;
+    };
+  }): Promise<void> {
+    const fixtures = await container
+      .resolve(SearchFixturesUseCase)
+      .execute(ctx.query.limit, ctx.body.name);
+    new Responder().respond(
+      "search successful",
       fixtures,
       200,
       true,

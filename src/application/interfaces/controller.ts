@@ -13,6 +13,11 @@ export interface FixtureControllerInterface {
     responder: any;
     query: { lastID: string; limit: number; all: boolean; adminID: string };
   }): Promise<void>;
+  searchFixtures(ctx: {
+    responder: any;
+    query: { limit: number };
+    body: { name: string };
+  }): Promise<void>;
 }
 
 export interface TeamControllerInterface {
