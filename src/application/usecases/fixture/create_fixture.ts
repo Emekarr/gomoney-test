@@ -14,6 +14,8 @@ export default class CreateFixtureUseCase {
   ) {}
 
   async execute(payload: Fixture, adminID: string) {
+    if (payload.teamOneID === payload.teamTwoID)
+      throw new UserError("team 1 and team 2 cannot be the same team", 422);
     const [team1, team2] = await Promise.all([
       this.teamRepository.findOneByFields(
         {
@@ -42,7 +44,7 @@ export default class CreateFixtureUseCase {
       payload
     );
     if (result.err) {
-      throw new UserError(result.err.message, 400);
+      throw new UserError(result.err.message, 422);
     }
     return await this.fixtureRepo.createEntry(
       { ...result.payload!, completed: false },

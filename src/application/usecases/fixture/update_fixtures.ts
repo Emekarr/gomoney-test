@@ -14,11 +14,19 @@ export default class UpdateFixturesUseCase {
   ) {}
 
   async execute(id: string, adminID: string, payload: Partial<Fixture>) {
-    const exists = await this.fixturesRepo.count({
-      _id: id,
-      createdBy: adminID,
-    });
-    if (exists === 0) throw new UserError("resource not found", 404);
+    const exists = await this.fixturesRepo.findOneByFields(
+      {
+        _id: id,
+        createdBy: adminID,
+      },
+      { teamOneID: true, teamTwoID: true },
+      {}
+    );
+    if (exists === null) throw new UserError("resource not found", 404);
+    if (payload.teamOneID && payload.teamOneID === exists.teamTwoID.toString())
+      throw new UserError("new team 1 is same as current team 2", 422);
+    if (payload.teamTwoID && payload.teamTwoID === exists.teamOneID.toString())
+      throw new UserError("new team 2 is same as current team 1", 422);
     const teamSearchJobs: Promise<any>[] = [];
     if (payload.teamOneID) {
       teamSearchJobs.push(
@@ -56,7 +64,7 @@ export default class UpdateFixturesUseCase {
       payload
     );
     if (result.err) {
-      throw new UserError(result.err.message, 400);
+      throw new UserError(result.err.message, 422);
     }
     await this.fixturesRepo.updateByID(id, result.payload!, {});
   }
