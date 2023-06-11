@@ -37,7 +37,6 @@ export default class CreateFixtureUseCase {
     payload.teamOneName = team1?.name;
     payload.teamTwoName = team2?.name;
     payload.createdBy = adminID;
-    console.log(payload);
     const result = ClassValidator.validate<Fixture>(
       FixtureValidatorSchema,
       payload

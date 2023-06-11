@@ -23,6 +23,11 @@ export interface FixtureControllerInterface {
     adminID: string;
     responder: any;
   }): void;
+  updateFixtures(ctx: {
+    responder: any;
+    query: { id: string; adminID: string };
+    body: Partial<Team>;
+  }): Promise<void>;
 }
 
 export interface TeamControllerInterface {

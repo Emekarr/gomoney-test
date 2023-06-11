@@ -114,4 +114,33 @@ router.delete(
   }
 );
 
+router.patch(
+  "/update",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await AuthMiddleware({
+        responder: res,
+        authToken: req.headers.authorization,
+        admin: true,
+      });
+      if (!user) return;
+      req.user = user;
+      next();
+    } catch (err: any) {
+      next(err);
+    }
+  },
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await FixtureController.updateFixtures({
+        responder: res,
+        body: req.body,
+        query: { id: req.query.id as string, adminID: req.user.id },
+      });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 export default router;

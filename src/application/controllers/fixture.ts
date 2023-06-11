@@ -6,8 +6,28 @@ import FetchFixturesUseCase from "../usecases/fixture/fetch_fixtures";
 import SearchFixturesUseCase from "../usecases/fixture/search_fixtures";
 import UserError from "../errors/UserError";
 import DeleteFixturesUseCase from "../usecases/fixture/delete_fixtures";
+import Team from "../../domain/entities/team";
+import UpdateFixturesUseCase from "../usecases/fixture/update_fixtures";
 
 class FixtureController implements FixtureControllerInterface {
+  async updateFixtures(ctx: {
+    responder: any;
+    query: { id: string; adminID: string };
+    body: Partial<Team>;
+  }): Promise<void> {
+    if (!ctx.query.id) throw new UserError("id is required", 400);
+    const fixture = await container
+      .resolve(UpdateFixturesUseCase)
+      .execute(ctx.query.id, ctx.query.adminID, ctx.body);
+    new Responder().respond(
+      "fixture updated",
+      fixture,
+      200,
+      true,
+      null,
+      ctx.responder
+    );
+  }
   async createFixture(ctx: {
     responder: any;
     body: any;
