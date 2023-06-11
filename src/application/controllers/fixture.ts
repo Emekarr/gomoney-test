@@ -4,6 +4,8 @@ import Responder from "../../infrastructure/responder";
 import CreateFixtureUseCase from "../usecases/fixture/create_fixture";
 import FetchFixturesUseCase from "../usecases/fixture/fetch_fixtures";
 import SearchFixturesUseCase from "../usecases/fixture/search_fixtures";
+import UserError from "../errors/UserError";
+import DeleteFixturesUseCase from "../usecases/fixture/delete_fixtures";
 
 class FixtureController implements FixtureControllerInterface {
   async createFixture(ctx: {
@@ -59,6 +61,23 @@ class FixtureController implements FixtureControllerInterface {
     new Responder().respond(
       "search successful",
       fixtures,
+      200,
+      true,
+      null,
+      ctx.responder
+    );
+  }
+
+  async deleteFixturesUseCase(ctx: {
+    id: string;
+    adminID: string;
+    responder: any;
+  }): Promise<void> {
+    if (!ctx.id) throw new UserError("id is required", 400);
+    await container.resolve(DeleteFixturesUseCase).execute(ctx.id, ctx.adminID);
+    new Responder().respond(
+      "fixture deleted",
+      null,
       200,
       true,
       null,

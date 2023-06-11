@@ -18,6 +18,11 @@ export interface FixtureControllerInterface {
     query: { limit: number };
     body: { name: string };
   }): Promise<void>;
+  deleteFixturesUseCase(ctx: {
+    id: string;
+    adminID: string;
+    responder: any;
+  }): void;
 }
 
 export interface TeamControllerInterface {
