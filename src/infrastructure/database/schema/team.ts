@@ -11,11 +11,13 @@ const teamSchemaFields: Record<keyof Team, any> = {
   name: {
     type: String,
     required: true,
+    index: true,
   },
   createdBy: {
     type: Types.ObjectId,
     required: true,
     ref: "Admin",
+    index: true,
   },
 };
 
