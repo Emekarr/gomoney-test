@@ -8,6 +8,7 @@ import UserError from "../errors/UserError";
 import DeleteFixturesUseCase from "../usecases/fixture/delete_fixtures";
 import Team from "../../domain/entities/team";
 import UpdateFixturesUseCase from "../usecases/fixture/update_fixtures";
+import { generateFixtureURL } from "../services/fixture";
 
 class FixtureController implements FixtureControllerInterface {
   async updateFixtures(ctx: {
@@ -16,18 +17,19 @@ class FixtureController implements FixtureControllerInterface {
     body: Partial<Team>;
   }): Promise<void> {
     if (!ctx.query.id) throw new UserError("id is required", 400);
-    const fixture = await container
+    await container
       .resolve(UpdateFixturesUseCase)
       .execute(ctx.query.id, ctx.query.adminID, ctx.body);
     new Responder().respond(
       "fixture updated",
-      fixture,
+      null,
       200,
       true,
       null,
       ctx.responder
     );
   }
+
   async createFixture(ctx: {
     responder: any;
     body: any;
@@ -36,9 +38,14 @@ class FixtureController implements FixtureControllerInterface {
     const fixture = await container
       .resolve(CreateFixtureUseCase)
       .execute(ctx.body, ctx.adminID);
+    const populatedWithURL = {
+      ...fixture,
+      url: generateFixtureURL(fixture.id),
+    };
+    fixture.url = generateFixtureURL(fixture.id);
     new Responder().respond(
       "fixture created",
-      fixture,
+      populatedWithURL,
       201,
       true,
       null,
@@ -65,9 +72,16 @@ class FixtureController implements FixtureControllerInterface {
         ctx.query.adminID,
         ctx.query.completed
       );
+    const populatedWithURL = fixtures.map((f) => {
+      const url = generateFixtureURL(f.id);
+      return {
+        ...f,
+        url,
+      };
+    });
     new Responder().respond(
       "fixture fetched",
-      fixtures,
+      populatedWithURL,
       200,
       true,
       null,
@@ -85,9 +99,16 @@ class FixtureController implements FixtureControllerInterface {
     const fixtures = await container
       .resolve(SearchFixturesUseCase)
       .execute(ctx.query.limit, ctx.body.name);
+    const populatedWithURL = fixtures.map((f) => {
+      const url = generateFixtureURL(f.id);
+      return {
+        ...f,
+        url,
+      };
+    });
     new Responder().respond(
       "search successful",
-      fixtures,
+      populatedWithURL,
       200,
       true,
       null,

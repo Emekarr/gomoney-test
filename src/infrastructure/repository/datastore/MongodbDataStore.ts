@@ -25,7 +25,7 @@ export default abstract class MongodbRepository<
     payload: Partial<T>,
     args: Partial<SaveOptions>
   ): Promise<T> {
-    return await new this.model(payload, args).save();
+    return (await this.model.create(payload)).toObject();
   }
 
   async findByID(
@@ -41,7 +41,7 @@ export default abstract class MongodbRepository<
     fields: Partial<ProjectionType<T>>,
     opts: Partial<QueryOptions>
   ): Promise<T[]> {
-    return await this.model.find(filter, fields, opts);
+    return await this.model.find(filter, fields, opts).lean();
   }
 
   async findOneByFields(

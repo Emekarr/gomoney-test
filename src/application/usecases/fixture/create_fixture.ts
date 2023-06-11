@@ -46,9 +46,9 @@ export default class CreateFixtureUseCase {
     if (result.err) {
       throw new UserError(result.err.message, 422);
     }
-    return await this.fixtureRepo.createEntry(
+    return (await this.fixtureRepo.createEntry(
       { ...result.payload!, completed: false },
       {}
-    );
+    )) as unknown as Fixture;
   }
 }
