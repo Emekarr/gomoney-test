@@ -9,6 +9,10 @@ export interface AuthControllerInterface {
 
 export interface FixtureControllerInterface {
   createFixture(ctx: { responder: any; body: any; adminID: string }): void;
+  fetchFixture(ctx: {
+    responder: any;
+    query: { lastID: string; limit: number; all: boolean; adminID: string };
+  }): Promise<void>;
 }
 
 export interface TeamControllerInterface {
