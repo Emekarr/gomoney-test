@@ -1,9 +1,20 @@
-import { connect, connection, ConnectOptions } from "mongoose";
+import mongooose, { connect, connection, ConnectOptions } from "mongoose";
 import InfoLogger from "../../../logger/InfoLogger";
 import ErrorLogger from "../../../logger/ErrorLogger";
 import config from "../../../../config";
 
+
 class MongooseConnection {
+  constructor(){
+    mongooose.set('toJSON', {
+      transform: (doc, ret) => {
+        ret.id = ret._id.toString()
+        delete ret._id
+        delete ret.__v
+      }
+    })
+  }
+
   connect() {
     connect(config.getMongoURL()!, {
       dbName: config.getDatabaseName(),
