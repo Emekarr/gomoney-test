@@ -20,7 +20,7 @@ export interface TeamControllerInterface {
   }): Promise<void>;
   fetchTeam(ctx: {
     responder: any;
-    query: { lastID: string; limit: number };
+    query: { lastID: string; limit: number; all: boolean; adminID: string };
   }): Promise<void>;
   searchTeam(ctx: {
     responder: any;

@@ -101,6 +101,7 @@ router.get(
         admin: false,
       });
       if (!user) return;
+      req.user = user;
       next();
     } catch (err: any) {
       next(err);
@@ -113,6 +114,8 @@ router.get(
         query: {
           lastID: req.query.lastID as string,
           limit: Number(req.query.limit) ?? 15,
+          all: "true" === (req.query.all as string),
+          adminID: req.user.id,
         },
       });
     } catch (err: any) {

@@ -47,11 +47,16 @@ class TeamController implements TeamControllerInterface {
 
   async fetchTeam(ctx: {
     responder: any;
-    query: { lastID: string; limit: number };
+    query: { lastID: string; limit: number; all: boolean; adminID: string };
   }): Promise<void> {
     const teams = await container
       .resolve(FetchTeamsUseCase)
-      .execute(ctx.query.lastID, ctx.query.limit);
+      .execute(
+        ctx.query.lastID,
+        ctx.query.limit,
+        ctx.query.all,
+        ctx.query.adminID
+      );
     new Responder().respond(
       "teams fetched",
       teams,
