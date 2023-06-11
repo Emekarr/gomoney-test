@@ -11,7 +11,13 @@ export interface FixtureControllerInterface {
   createFixture(ctx: { responder: any; body: any; adminID: string }): void;
   fetchFixture(ctx: {
     responder: any;
-    query: { lastID: string; limit: number; all: boolean; adminID: string };
+    query: {
+      lastID: string;
+      limit: number;
+      all: boolean;
+      adminID: string;
+      completed: boolean;
+    };
   }): Promise<void>;
   searchFixtures(ctx: {
     responder: any;

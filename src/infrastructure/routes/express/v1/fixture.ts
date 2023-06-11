@@ -56,8 +56,9 @@ router.get(
         query: {
           lastID: req.query.lastID as string,
           limit: Number(req.query.limit) ?? 15,
-          all: "true" === (req.query.all as string),
+          all: "true" === req.query.all,
           adminID: req.user.id,
+          completed: req.query.completed === "true",
         },
       });
     } catch (err: any) {

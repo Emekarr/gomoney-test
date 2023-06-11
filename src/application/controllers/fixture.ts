@@ -48,7 +48,13 @@ class FixtureController implements FixtureControllerInterface {
 
   async fetchFixture(ctx: {
     responder: any;
-    query: { lastID: string; limit: number; all: boolean; adminID: string };
+    query: {
+      lastID: string;
+      limit: number;
+      all: boolean;
+      adminID: string;
+      completed: boolean;
+    };
   }): Promise<void> {
     const fixtures = await container
       .resolve(FetchFixturesUseCase)
@@ -56,7 +62,8 @@ class FixtureController implements FixtureControllerInterface {
         ctx.query.lastID,
         ctx.query.limit,
         ctx.query.all,
-        ctx.query.adminID
+        ctx.query.adminID,
+        ctx.query.completed
       );
     new Responder().respond(
       "fixture fetched",
