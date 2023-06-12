@@ -6,8 +6,8 @@
   "scripts": {
     "copyAssets": "ts-node tools/copyAssets.ts",
     "dev": "env-cmd -f .env nodemon ./src/main.ts",
-    "build": "tsc && yarn run copyAssets ",
-    "start": "node build/src/main.ts",
+    "build": "tsc",
+    "start": "npm run build && node build/src/main.js",
     "test": "NODE_ENV=test jest"
   },
   "author": "",
