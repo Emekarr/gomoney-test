@@ -19,6 +19,7 @@ export interface FixtureControllerInterface {
       completed: boolean;
     };
   }): Promise<void>;
+  fetchFixtureByURL(ctx: { responder: any; id: string }): Promise<void>;
   searchFixtures(ctx: {
     responder: any;
     query: { limit: number };

@@ -115,6 +115,34 @@ router.delete(
   }
 );
 
+router.get(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await AuthMiddleware({
+        responder: res,
+        authToken: req.headers.authorization,
+        admin: false,
+      });
+      if (!user) return;
+      req.user = user;
+      next();
+    } catch (err: any) {
+      next(err);
+    }
+  },
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await FixtureController.fetchFixtureByURL({
+        responder: res,
+        id: req.params.id,
+      });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 router.patch(
   "/update",
   async (req: Request, res: Response, next: NextFunction) => {

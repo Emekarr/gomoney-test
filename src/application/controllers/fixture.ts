@@ -9,8 +9,22 @@ import DeleteFixturesUseCase from "../usecases/fixture/delete_fixtures";
 import Team from "../../domain/entities/team";
 import UpdateFixturesUseCase from "../usecases/fixture/update_fixtures";
 import { generateFixtureURL } from "../services/fixture";
+import FetchFixtureByIDUseCase from "../usecases/fixture/fetch_fixture_by_id";
 
 class FixtureController implements FixtureControllerInterface {
+  async fetchFixtureByURL(ctx: { responder: any; id: string }): Promise<void> {
+    const fixture = await container
+      .resolve(FetchFixtureByIDUseCase)
+      .execute(ctx.id);
+    new Responder().respond(
+      "fixture fetched",
+      fixture,
+      200,
+      true,
+      null,
+      ctx.responder
+    );
+  }
   async updateFixtures(ctx: {
     responder: any;
     query: { id: string; adminID: string };
