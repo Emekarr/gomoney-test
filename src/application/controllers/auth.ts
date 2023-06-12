@@ -54,7 +54,7 @@ class AuthController implements AuthControllerInterface {
       "user acount created",
       { user, tokens: { accessToken, refreshToken } },
       201,
-      false,
+      true,
       null,
       ctx.responder
     );
