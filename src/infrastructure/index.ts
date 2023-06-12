@@ -3,7 +3,7 @@ import ServerInterface from "./ServerInterface";
 import DBConnection from "./database/connection";
 
 export const startServer = (server: ServerInterface) => {
-  server.start();
+  return server.start();
 };
 
 export const startServices = () => {
@@ -13,5 +13,5 @@ export const startServices = () => {
 
 export default () => {
   startServices();
-  startServer(new ExpressServer());
+  return startServer(new ExpressServer());
 };

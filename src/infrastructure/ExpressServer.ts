@@ -11,7 +11,7 @@ import ExpressRouter from "./routes/express";
 import { ErrorMiddleware } from "../application/middleware/error";
 
 export default class ExpressServer implements ServerInterface {
-  start(): void {
+  start(): any {
     const server = express();
 
     server.use(morgan("combined"));
@@ -73,5 +73,6 @@ export default class ExpressServer implements ServerInterface {
     server.listen(config.getPort(), () => {
       InfoLogger.write(`server running on PORT ${config.getPort()}`);
     });
+    return server;
   }
 }
