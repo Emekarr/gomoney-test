@@ -87,7 +87,7 @@ class FixtureController implements FixtureControllerInterface {
         ctx.query.completed
       );
     const populatedWithURL = fixtures.map((f) => {
-      const url = generateFixtureURL(f.id);
+      const url = generateFixtureURL(f._id);
       return {
         ...f,
         url,
@@ -114,7 +114,7 @@ class FixtureController implements FixtureControllerInterface {
       .resolve(SearchFixturesUseCase)
       .execute(ctx.query.limit, ctx.body.name);
     const populatedWithURL = fixtures.map((f) => {
-      const url = generateFixtureURL(f.id);
+      const url = generateFixtureURL(f._id);
       return {
         ...f,
         url,
