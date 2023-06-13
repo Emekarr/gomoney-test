@@ -17,6 +17,10 @@ const getOrigins = (): string[] => {
   return (process.env.ORIGINS as string).split(",");
 };
 
+const getNodeEnv = (): string => {
+  return process.env.NODE_ENV as string;
+};
+
 const getLogAggregator = (): string => {
   return process.env.LOG_AGGREGATOR_URL as string;
 };
@@ -67,4 +71,5 @@ export default {
   getAccessTokenLife,
   getJWTIssuer,
   getClientOrigin,
+  getNodeEnv,
 };

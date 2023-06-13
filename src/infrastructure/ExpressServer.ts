@@ -70,9 +70,12 @@ export default class ExpressServer implements ServerInterface {
       }
     );
 
-    server.listen(config.getPort(), () => {
-      InfoLogger.write(`server running on PORT ${config.getPort()}`);
-    });
+    if (config.getNodeEnv() !== "test") {
+      server.listen(config.getPort(), () => {
+        InfoLogger.write(`server running on PORT ${config.getPort()}`);
+      });
+    }
+
     return server;
   }
 }

@@ -17,13 +17,13 @@ class AuthController implements AuthControllerInterface {
       name: admin.name,
       admin: true,
       email: admin.email,
-      id: admin.id,
+      id: admin._id,
     });
     const refreshToken = await AuthTokensManager.generateRefreshToken({
       name: admin.name,
       admin: true,
       email: admin.email,
-      id: admin.id,
+      id: admin._id,
     });
     new Responder().respond(
       "admin acount created",
